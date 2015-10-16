@@ -1,0 +1,21 @@
+{
+    "@": {
+        "$": [
+            "../0.stack/stack.proto.ccjson"
+        ]
+    },
+    "@0.pinf.genesis.Aspects": {
+        "${{ARG.namespace}}.0.pinf.genesis.Aspects": {
+            "${{ARG.namespace}}.context.server.api()->context": {
+                "adapter": "model.pinf.genesis"
+            }
+        }
+    },
+    "@route.express": {
+        "${{ARG.namespace}}.routes.apis": {
+            "${{ARG.namespace}}.0.pinf.genesis.Aspects.app()->impls/pinf.genesis.Aspects": {
+                "match": "^/cores/model/for/pinf.genesis(/.+)$"
+            }
+        }
+    }
+}

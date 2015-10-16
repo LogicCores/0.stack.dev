@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html component:id="html">
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+
+  <title>Zero System - Test System</title>
+
+  <link rel="stylesheet" type="text/css" href="/cores/skin/for/semantic-ui/semantic.no-media.dist.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+
+  <meta name="page.context" value="{{PAGE.context}}">
+</head>
+<body class="site">
+
+    <div id="page-content" class="ui text container page page-content" component:anchor:id="page-content">
+    </div>
+  
+  <script src="/cores/export/for/browserify/polyfills.dist.js"></script>
+  <script src="/cores/export/for/browserify/lib.dist.js"></script>
+  <script src="/cores/export/for/browserify/cores.js" async></script>
+  <script src="/cores/export/for/browserify/page.js" async></script>
+  <script src="/cores/data/for/record.collections/api.js" async></script>
+  <script src="/cores/export/for/webpack.skin/components.js" async></script>
+
+  <script>
+	// TODO: This must be callable multiple times!	
+  window.animateSkin = function () {
+    // fix main menu to page on passing
+  }
+  </script>
+</body>
+</html>

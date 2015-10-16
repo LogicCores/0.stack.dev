@@ -1,0 +1,12 @@
+
+.hidden {
+	display: none !important;
+}
+
+HTML {
+    font-size: 0.6rem;
+}
+
+.page-content {
+    padding: 10px;
+}
