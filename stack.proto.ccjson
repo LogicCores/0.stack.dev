@@ -1,7 +1,12 @@
 {
     "@": {
         "$": [
-            "../0.stack/stack.proto.ccjson"
+            [
+                "../0.stack/stack.proto.ccjson",
+                {
+                    "stackIndex": 5
+                }
+            ]
         ]
     },
     "@0.pinf.genesis.Aspects": {
