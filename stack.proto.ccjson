@@ -11,6 +11,15 @@
             }
         }
     },
+    "@static.fs": {
+        "${{ARG.namespace}}.static.fs.data.collections": {
+            "sets": {
+                "pinf.genesis.model": {
+                    "loaderPath": "{{__DIRNAME__}}/../0.PINF.Genesis/Model/Inception.0/collections.js"
+                }
+            }
+        }
+    },
     "@route.express": {
         "${{ARG.namespace}}.routes.apis": {
             "${{ARG.namespace}}.0.pinf.genesis.Aspects.app()->impls/pinf.genesis.Aspects": {
