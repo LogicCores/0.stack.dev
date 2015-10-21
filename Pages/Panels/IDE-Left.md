@@ -121,7 +121,7 @@ exports.main = function (LIB, globalContext) {
                       row["$views"]['deployment'] = true;
       
                       // TODO: Instead of hardcoding, enable view if data is available.
-                      if (row.get("id") === "127.0.0.1:8090") {
+                      if (row["id"] === "127.0.0.1:8090") {
                           row["$views"]['stacks'] = true;
                           row["stack"].forEach(function (stack) {
                               stack["$views"] = {};
@@ -142,16 +142,16 @@ exports.main = function (LIB, globalContext) {
                   ) {
       
                       // HACK: Do this dynamically
-                      var inviteInfo = data["deployment-details"][0].get("inviteInfo");
-                      var baseUrl = data["deployment-details"][0].get("baseUrl");
+                      var inviteInfo = data["deployment-details"][0]["inviteInfo"];
+                      var baseUrl = data["deployment-details"][0]["baseUrl"];
                       var stack = data["stacks"].filter(function (stack) {
-                          return (stack.get("id") === node.id);
+                          return (stack["id"] === node.id);
                       }).pop();
       
                       var url =
                           baseUrl +
-                          stack.get("subUri") +
-                          (stack.get("invitePage") || "") + 
+                          stack["subUri"] +
+                          (stack["invitePage"] || "") + 
                           "?" + inviteInfo.name + "=" + inviteInfo.value;
       
                       window.open(url, "_blank");
