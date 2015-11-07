@@ -2,6 +2,7 @@
 Deployments
 ===========
 
+<script language="html">
 <table class="ui compact single line table" component:id="deployments-table">
   <thead>
     <tr>
@@ -42,11 +43,12 @@ Deployments
     </tr>
   </tbody>
 </table>
-
+</script>
 
 Developers
 ==========
 
+<script language="html">
 <table class="ui compact single line table" component:id="developers-table">
   <thead>
     <tr>
@@ -63,6 +65,7 @@ Developers
     </tr>
   </tbody>
 </table>
+</script>
 
 
 
