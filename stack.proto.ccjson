@@ -31,5 +31,38 @@
                 "match": "^/cores/model/for/pinf.genesis(/.+)$"
             }
         }
+    },
+    "@0.pinf.genesis.TestSuite": {
+        "${{ARG.namespace}}.0.pinf.genesis.TestSuite.unit.browser": {
+            "group": "{{ARG.namespace}}",
+            "type": "unit",
+            "label": "browser",
+            "implementation": {
+                "internModulePath": "{{__DIRNAME__}}/tests/unit/browser.js"
+            },
+            "containers": {
+                "browser": true
+            }
+        },
+        "${{ARG.namespace}}.0.pinf.genesis.TestSuite.unit.portable": {
+            "group": "{{ARG.namespace}}",
+            "type": "unit",
+            "label": "portable",
+            "implementation": {
+                "internModulePath": "{{__DIRNAME__}}/tests/unit/portable.js"
+            },
+            "containers": {
+                "browser": true,
+                "server": true
+            }
+        },
+        "${{ARG.namespace}}.0.pinf.genesis.TestSuite.functional.Developers": {
+            "group": "{{ARG.namespace}}",
+            "type": "functional",
+            "label": "Developers",
+            "implementation": {
+                "internModulePath": "{{__DIRNAME__}}/tests/functional/Developers.js"
+            }
+        }
     }
 }

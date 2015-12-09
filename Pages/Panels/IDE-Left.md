@@ -25,15 +25,13 @@ Deployments
         <table class="ui compact single line selectable table">
           <thead>
             <tr>
-              <th>Stack</th>
-              <th>Namespace</th>
+              <th>Stack / Namespace</th>
               <th>Sub URI</th>
             </tr>
           </thead>
           <tbody component:section="stack">
             <tr component:section="stack" component:view="stack" data-component-action="open-stack" data-id="{{id}}">
               <td component:prop="label"></td>
-              <td component:prop="namespace"></td>
               <td component:prop="subUri"></td>
             </tr>
           </tbody>
@@ -44,6 +42,43 @@ Deployments
   </tbody>
 </table>
 </script>
+
+
+Test Results
+============
+
+<script language="html">
+    <table class="ui compact single line table" component:id="tests-table">
+      <thead>
+        <tr>
+          <th colspan="3"></th>
+          <th colspan="2">Latest Build</th>
+          <th colspan="2">Current Development</th>
+        </tr>
+        <tr>
+          <th>Group</th>
+          <th>Label</th>
+          <th>Type</th>
+          <th>Passing</th>
+          <th>Failing</th>
+          <th>Status</th>
+          <th>Run</th>
+        </tr>
+      </thead>
+      <tbody component:section="suite">
+        <tr component:section="suite" component:view="default">
+          <td component:prop="group"></td>
+          <td component:prop="label"></td>
+          <td component:prop="type"></td>
+          <td></td>
+          <td></td>
+          <td component:prop="devStatusValue"></td>
+          <td><a component:view="browser-runnable" target="_blank" href="{{runBrowserTestsUrl}}">Browser Tests</a></td>
+        </tr>
+      </tbody>
+    </table>
+</script>
+
 
 Developers
 ==========
@@ -65,6 +100,81 @@ Developers
     </tr>
   </tbody>
 </table>
+</script>
+
+
+<script component:id="tests-table" component:location="window">
+exports.main = function (LIB, globalContext) {
+	return LIB.firewidgets.Widget(function (context) {
+		return {
+			"#chscript:redraw": {
+                mapData: function (data) {
+                    return {
+                        "@load": [
+                            "suites"
+                        ],
+                        "@map": {
+                          'rows': data.connect('pinf.genesis.model.TestSuite/*', function (data) {
+                            return {
+                              "id": data.connect("id"),
+                              "group": data.connect("group"),
+                              "label": data.connect("label"),
+                              "type": data.connect("type"),
+                              "containers": data.connect("containers")
+                            };
+                          })
+                        }
+                    };
+                },
+                getTemplateData: function (data) {
+                    return {
+                        "suite": data.rows.map(function (row) {
+                            row["$views"] = {};
+                            row["$views"]['default'] = true;
+                            row["$views"]['browser-runnable'] = (
+                                row.type === "unit" &&
+                                row.containers &&
+                                row.containers.browser
+                            );
+                            if (row["$views"]['browser-runnable']) {
+                                row.runBrowserTestsUrl = context.contexts.adapters.test.intern.getRunBrowserTestsUrlForSuite(
+                                    row
+                                );
+                            }
+
+                            row.devStatusValue = context.contexts.adapters.test.intern.getDevGitCommitTag();
+                            if (context.contexts.adapters.test.intern.getDevGitDirty()) {
+                                row.devStatusValue += " +";
+                            }
+
+                            return row;
+                        })
+                    };
+                }
+			}
+		};
+	}, globalContext);
+}
+</script>
+
+<script component:id="tests-table" component:location="server">
+exports.main = function (LIB, globalContext) {
+	return LIB.firewidgets.Widget(function (context) {
+		return {
+		    "#0.FireWidgets": {
+		        getDataForPointer: function (pointer) {
+              const aspects = globalContext.adapters["model.pinf.genesis"];
+      
+              if (pointer === "suites") {
+                  return {
+                      "pinf.genesis.model.TestSuite": aspects.getCollectionRecords("TestSuite")
+                  };
+              }
+		        }
+		    }
+		};
+	}, globalContext);
+}
 </script>
 
 
@@ -189,63 +299,6 @@ exports.main = function (LIB, globalContext) {
 }
 </script>
 
-
-<script component:id="stacks-table" component:location="window">
-exports.main = function (LIB, globalContext) {
-	return LIB.firewidgets.Widget(function (context) {
-		return {
-			"#chscript:redraw": {
-        mapData: function (data) {
-            return {
-                "@load": [
-                    "stacks"
-                ],
-                "@map": {
-                  'rows': data.connect('pinf.genesis.model.Stack/*', function (data) {
-                    return {
-                      "id": data.connect("id"),
-                      "label": data.connect("label"),
-                      "namespace": data.connect("namespace"),
-                      "subUri": data.connect("subUri")
-                    };
-                  })
-                }
-            };
-        },
-        getTemplateData: function (data) {
-            return {
-                "row": data.rows.map(function (row) {
-                    row["$views"] = {};
-                    row["$views"]['default'] = true;
-                    return row;
-                })
-            };
-        }
-			}
-		};
-	}, globalContext);
-}
-</script>
-
-<script component:id="stacks-table" component:location="server">
-exports.main = function (LIB, globalContext) {
-	return LIB.firewidgets.Widget(function (context) {
-		return {
-		    "#0.FireWidgets": {
-		        getDataForPointer: function (pointer) {
-              const aspects = globalContext.adapters["model.pinf.genesis"];
-      
-              if (pointer === "stacks") {
-                  return {
-                      "pinf.genesis.model.Stack": aspects.getCollectionRecords("Stack")
-                  };
-              }
-		        }
-		    }
-		};
-	}, globalContext);
-}
-</script>
 
 
 
